@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  movie-recommender:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: movie-recommender:latest
+    container_name: movie-recommender-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://127.0.0.1:3000/api/model-info || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 15s

@@ -54,18 +54,83 @@ Frontend:
 - Tailwind CSS
 - JavaScript
 
-Backend:
-- Firebase Authentication
-- Firebase Firestore
-- Firebase Cloud Functions
+Backend & Machine Learning:
+- Content-Based TF-IDF Cosine Similarity ML Engine
+- Pre-trained Movie Recommendation Vector Model
+- Firebase Authentication & Firestore (Optional)
+- TMDB API Integration (Optional)
 
-Deployment:
-- Vercel / Firebase Hosting
+DevOps & CI/CD:
+- Docker (Multi-stage production build)
+- Docker Compose
+- Jenkins Declarative Pipeline (Automated Lint, Build, Container Health Testing, and Deployment)
+
+---
+
+## Docker & Containerization
+
+### Quick Start with Docker
+
+Build and run the container locally:
+
+```bash
+# 1. Build the Docker image
+docker build -t movie-recommender:latest .
+
+# 2. Run container on port 3000
+docker run -d --name movie-recommender-app -p 3000:3000 --restart unless-stopped movie-recommender:latest
+
+# 3. Check container logs
+docker logs -f movie-recommender-app
+
+# 4. Verify health check
+curl http://localhost:3000/api/model-info
+```
+
+### Quick Start with Docker Compose
+
+```bash
+# Start in detached mode
+docker compose up -d
+
+# Check status
+docker compose ps
+
+# View real-time logs
+docker compose logs -f
+
+# Stop and remove containers
+docker compose down
+```
+
+---
+
+## Jenkins CI/CD Pipeline
+
+The project includes an enterprise-grade `Jenkinsfile` featuring:
+1. **SCM Checkout**: Clones the repository and verifies branch status.
+2. **Lint & Validation**: Inspects critical files, dependencies, and validates ML recommendation JSON model integrity.
+3. **Docker Build**: Builds tagged production images (`movie-recommender:${BUILD_NUMBER}` and `latest`).
+4. **Docker Container Health Test**: Spawns an ephemeral test container and asserts health response via `/api/model-info`.
+5. **Deploy**: Restarts and serves the verified container on production port `3000`.
+6. **Post-Build Cleanup**: Automatically cleans up temporary resources and delivers build status.
 
 ---
 
 ## Project Structure
 
+```
+movie-recommender/
+│── components/            Reusable UI components (FilterBar, MovieRecommender, etc.)
+│── pages/                 Next.js pages & API routes (recommend, search, trending)
+│── public/models/         Pre-trained ML recommendation model data
+│── lib/                   Firebase, TMDB, and Watchlist helper utilities
+│── styles/                Global and Tailwind styles
+│── Dockerfile             Multi-stage production container build
+│── docker-compose.yml     Docker Compose service configuration
+│── Jenkinsfile            Automated Jenkins CI/CD Pipeline
+│── .dockerignore          Docker build ignore rules
+│── README.md
 ```
 
 movie-recommender/
@@ -138,16 +203,14 @@ The application can be deployed using Vercel or Firebase Hosting. Ensure environ
 ## Repository
 
 GitHub:
-[https://github.com/Arjunyadavsoma/movie-recommender](https://github.com/Arjunyadavsoma/movie-recommender)
+- CI/CD & Docker: [ajaychintoo04-art/movie-recommender](https://github.com/ajaychintoo04-art/movie-recommender)
+- Upstream: [Arjunyadavsoma/movie-recommender](https://github.com/Arjunyadavsoma/movie-recommender)
 
 ---
 
-## Author
+## Author & Maintainers
 
-Soma Arjun Yadav
-
-B.Tech in AI and Machine Learning
-
-Full-Stack and AI Developer
+- **Original Author**: Soma Arjun Yadav (B.Tech in AI and Machine Learning)
+- **DevOps, Docker & Jenkins CI/CD**: Ajay kumar (<Ajaychintoo04@gmail.com>)
 
 
